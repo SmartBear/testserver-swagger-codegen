@@ -1,0 +1,54 @@
+{{#operations}}{{#operation}}{
+    "testSteps" : [{{^hasConsumes}}
+        {
+            "type": "REST Request",
+            "method": "{{httpMethod}}",
+            "URI": "{{basePath}}{{path}}"{{#hasBodyParam}},
+            "requestBody":""{{/hasBodyParam}}{{#hasQueryParams}},
+            "parameters": [{{#queryParams}}
+                {
+                "name": "{{paramName}}",
+                "value": ""
+                }{{#hasMore}},{{/hasMore}}{{/queryParams}}
+            ]{{/hasQueryParams}}{{#hasHeaderParams}},
+            "headers": [{{#headerParams}}
+                {
+                "name": "{{paramName}}",
+                "value": ""
+                }{{#hasMore}},{{/hasMore}}{{/headerParams}}
+            ]{{/hasHeaderParams}},
+            "assertions": [
+                {
+                    "type": "Valid HTTP Status Codes",
+                    "validStatusCodes": [{{#responses}}{{code}}{{#hasMore}},{{/hasMore}}{{/responses}}]
+                }
+            ]
+        }{{#hasMore}},{{/hasMore}}{{/hasConsumes}}{{#consumes}}
+        {
+            "type": "REST Request",
+            "method": "{{httpMethod}}",
+            "URI": "{{basePath}}{{path}}",
+            "mediaType": "{{mediaType}}"{{#hasBodyParam}},
+            "requestBody":""{{/hasBodyParam}}{{#hasQueryParams}},
+            "parameters": [{{#queryParams}}
+                {
+                "name": "{{paramName}}",
+                "value": ""
+                }{{#hasMore}},{{/hasMore}}{{/queryParams}}
+            ]{{/hasQueryParams}}{{#hasHeaderParams}},
+            "headers": [{{#headerParams}}
+                {
+                "name": "{{paramName}}",
+                "value": ""
+                }{{#hasMore}},{{/hasMore}}{{/headerParams}}
+            ]{{/hasHeaderParams}},
+            "assertions": [
+                {
+                    "type": "Valid HTTP Status Codes",
+                    "validStatusCodes": [{{#responses}}{{code}}{{#hasMore}},{{/hasMore}}{{/responses}}]
+                }
+            ]
+        }{{#hasMore}},{{/hasMore}}{{/consumes}}
+    ]
+}
+{{/operation}}{{/operations}}
