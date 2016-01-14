@@ -18,7 +18,7 @@ public class TestCodegen {
 
        SwaggerCodegen.main( new String[]{
                "generate",
-               "-l", "TestServerCodeGen",
+               "-l", "TestServerCodegen",
                "-i", "src/test/resources/swagger.json",
                "-o", target.getPath(),
        });

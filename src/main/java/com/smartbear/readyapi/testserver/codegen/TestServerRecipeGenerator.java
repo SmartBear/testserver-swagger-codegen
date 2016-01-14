@@ -19,7 +19,7 @@ public class TestServerRecipeGenerator extends DefaultCodegen implements Codegen
     }
 
     public String getName() {
-        return "TestServerCodeGen";
+        return "TestServerCodegen";
     }
 
     public String getHelp() {
