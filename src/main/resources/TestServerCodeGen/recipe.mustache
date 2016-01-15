@@ -1,5 +1,5 @@
 {{#operations}}{{#operation}}{
-    "testSteps" : [{{^hasConsumes}}
+    "testSteps" : [{{^hasConsumes}}{{#responses}}
         {
             "type": "REST Request",
             "method": "{{httpMethod}}",
@@ -7,23 +7,23 @@
             "requestBody":""{{/hasBodyParam}}{{#hasQueryParams}},
             "parameters": [{{#queryParams}}
                 {
-                "name": "{{paramName}}",
-                "value": ""
+                "name": "{{baseName}}",
+                "value": "{{defaultValue}}"
                 }{{#hasMore}},{{/hasMore}}{{/queryParams}}
             ]{{/hasQueryParams}}{{#hasHeaderParams}},
             "headers": [{{#headerParams}}
                 {
-                "name": "{{paramName}}",
-                "value": ""
+                "name": "{{baseName}}",
+                "value": "{{defaultValue}}"
                 }{{#hasMore}},{{/hasMore}}{{/headerParams}}
             ]{{/hasHeaderParams}},
             "assertions": [
                 {
                     "type": "Valid HTTP Status Codes",
-                    "validStatusCodes": [{{#responses}}{{code}}{{#hasMore}},{{/hasMore}}{{/responses}}]
+                    "validStatusCodes": [{{code}}]
                 }
             ]
-        }{{#hasMore}},{{/hasMore}}{{/hasConsumes}}{{#consumes}}
+        }{{#hasMore}},{{/hasMore}}{{/responses}}{{/hasConsumes}}{{#consumes}}{{#responses}}
         {
             "type": "REST Request",
             "method": "{{httpMethod}}",
@@ -32,23 +32,23 @@
             "requestBody":""{{/hasBodyParam}}{{#hasQueryParams}},
             "parameters": [{{#queryParams}}
                 {
-                "name": "{{paramName}}",
-                "value": ""
+                "name": "{{baseName}}",
+                "value": "{{defaultValue}}"
                 }{{#hasMore}},{{/hasMore}}{{/queryParams}}
             ]{{/hasQueryParams}}{{#hasHeaderParams}},
             "headers": [{{#headerParams}}
                 {
-                "name": "{{paramName}}",
-                "value": ""
+                "name": "{{baseName}}",
+                "value": "{{defaultValue}}"
                 }{{#hasMore}},{{/hasMore}}{{/headerParams}}
             ]{{/hasHeaderParams}},
             "assertions": [
                 {
                     "type": "Valid HTTP Status Codes",
-                    "validStatusCodes": [{{#responses}}{{code}}{{#hasMore}},{{/hasMore}}{{/responses}}]
+                    "validStatusCodes": [{{code}}]
                 }
             ]
-        }{{#hasMore}},{{/hasMore}}{{/consumes}}
+        }{{#hasMore}},{{/hasMore}}{{/responses}}{{#hasMore}},{{/hasMore}}{{/consumes}}
     ]
 }
 {{/operation}}{{/operations}}

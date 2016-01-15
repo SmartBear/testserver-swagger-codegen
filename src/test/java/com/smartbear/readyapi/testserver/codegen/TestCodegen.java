@@ -14,12 +14,14 @@ public class TestCodegen {
    {
        File target = new File( "target/generated-testclient");
 
-       System.setProperty( "debugOperations", "");
+       //System.setProperty( "debugOperations", "");
+       System.setProperty( "debugSupportingFiles", "");
+       System.setProperty( "apitest.mavenPropertyPrefix", "apitest");
 
        SwaggerCodegen.main( new String[]{
                "generate",
                "-l", "TestServerCodegen",
-               "-i", "src/test/resources/swagger.json",
+               "-i", "https://internal-api.swaggerhub.com/apis/swagger-hub/registry-api/1.0.6",
                "-o", target.getPath(),
        });
 
