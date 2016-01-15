@@ -16,7 +16,7 @@ java -cp target/testserver-swagger-codegen-1.0.0.jar:<path to swagger-codegen-cl
 ## Maven properties
 
 If you plan on running the generated recipes with the 
-(testrunner-maven-plugin)[https://github.com/olensmar/readyapi-testserver-maven-plugin] you can add
+[testrunner-maven-plugin](https://github.com/olensmar/readyapi-testserver-maven-plugin) you can add
  a mavenPropertyPrefix property to the command-line as a system property, which will result in the following:
 
 - the generated recipes will have maven property references for the host and any path parameters
