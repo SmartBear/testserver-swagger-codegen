@@ -9,7 +9,7 @@ After building with mvn:package - use with
 ```
 java -cp target/testserver-swagger-codegen-1.0.0.jar:<path to swagger-codegen-cli.jar> 
     io.swagger.codegen.SwaggerCodegen generate -l TestServerCodegen 
-    -i http://petstore.swagger.io/v2/swagger.json -o output
+    -i <url/path to Swagger definition> -o output
 ```
 
 
