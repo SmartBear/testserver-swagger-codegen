@@ -1,6 +1,7 @@
 # Swagger Codegen for Ready! API TestServer
 
-Generates ReadyAPI TestServer recipe skeletons from a Swagger Definition; each operation will 
+Generates [Ready!API TestServer](http://readyapi.smartbear.com/testserver/intro/about) recipe skeletons 
+from a [Swagger](https://swagger.io) Definition; each operation in the definition will 
 result in one recipe file containing one REST TestStep for each consumes value and response code; 
 if no consumes are defined it will just contain one teststep for each response.
 
