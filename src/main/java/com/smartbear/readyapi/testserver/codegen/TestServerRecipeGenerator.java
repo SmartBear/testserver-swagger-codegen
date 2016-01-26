@@ -25,6 +25,8 @@ public class TestServerRecipeGenerator extends DefaultCodegen implements Codegen
 
     protected String sourceFolder = "recipes";
     private String propertyPrefix;
+    private boolean addOperationId;
+    private String pathParamPrefix;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -42,6 +44,8 @@ public class TestServerRecipeGenerator extends DefaultCodegen implements Codegen
         super();
 
         cliOptions.add( new CliOption( "mavenPropertyPrefix", "replaces path parameters and host with property references"));
+        cliOptions.add( new CliOption( "pathParamPrefix", "prefix for generated path parameter properties"));
+        cliOptions.add( new CliOption( "addOperationId", "if specified the operationId will be added to generated parameter property names"));
 
         outputFolder = "generated-code/TestServerCodeGen";
         apiTemplateFiles.put( "recipe.mustache", ".json");
@@ -58,16 +62,30 @@ public class TestServerRecipeGenerator extends DefaultCodegen implements Codegen
         }
 
         if( propertyPrefix != null ){
-            co.path = co.path.replace("{", "${" + propertyPrefix + "." + co.operationId + "." );
+            String replacement = "${" + propertyPrefix + ".";
+
+            if( pathParamPrefix != null ){
+                replacement = replacement + pathParamPrefix + ".";
+            }
+
+            if( addOperationId ) {
+                replacement = replacement + co.operationId + ".";
+            }
+
+            co.path = co.path.replace("{", replacement);
         }
 
         group.add( co );
         operations.put( operation.getOperationId(), group );
     }
 
+
+
     @Override
     public void preprocessSwagger(Swagger swagger) {
         propertyPrefix = (String)additionalProperties().get("mavenPropertyPrefix");
+        pathParamPrefix = (String)additionalProperties().get( "pathParamPrefix");
+        addOperationId = "true".equals( additionalProperties().get( "addOperationId" ));
 
         if( propertyPrefix != null ){
             swagger.setHost( "${" + propertyPrefix + ".host}" );
@@ -80,7 +98,18 @@ public class TestServerRecipeGenerator extends DefaultCodegen implements Codegen
                 {
                     for( Parameter parameter : operation.getParameters()){
                         if( parameter instanceof PathParameter ){
-                            String property = propertyPrefix + "." + operation.getOperationId() + "." + parameter.getName();
+                            String property = propertyPrefix + ".";
+
+                            if( pathParamPrefix != null ){
+                                property = property + pathParamPrefix + ".";
+                            }
+
+                            if( addOperationId ){
+                                property = property + operation.getOperationId() + ".";
+                            }
+
+                            property += parameter.getName();
+
                             if( !names.contains(property)) {
                                 pathParamProperties.add(new PathParameterProperty(property, ((PathParameter) parameter).getDefaultValue()));
                                 names.add( property );

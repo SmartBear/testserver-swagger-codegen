@@ -2,6 +2,7 @@
     "testSteps" : [{{^hasConsumes}}{{#responses}}
         {
             "type": "REST Request",
+            "name": "{{operationId}} - {{code}} Response",
             "method": "{{httpMethod}}",
             "URI": "{{basePath}}{{path}}"{{#hasBodyParam}},
             "requestBody":""{{/hasBodyParam}}{{#hasQueryParams}},
@@ -26,6 +27,7 @@
         }{{#hasMore}},{{/hasMore}}{{/responses}}{{/hasConsumes}}{{#consumes}}{{#responses}}
         {
             "type": "REST Request",
+            "name": "{{operationId}} - {{code}} Response - {{mediaType}}",
             "method": "{{httpMethod}}",
             "URI": "{{basePath}}{{path}}",
             "mediaType": "{{mediaType}}"{{#hasBodyParam}},

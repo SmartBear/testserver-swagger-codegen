@@ -1,15 +1,54 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.smartbear.readyapi</groupId>
     <artifactId>testserver-swagger-codegen</artifactId>
-    <packaging>jar</packaging>
-    <name>Ready! API TestServer CodeGen</name>
     <version>1.0.0</version>
+
+    <packaging>jar</packaging>
+
+    <name>Ready! API TestServer CodeGen</name>
+    <description>Swagger Codegen extension that generates Ready!API Test Recipes from Swagger definitions</description>
+
+    <url>https://github.com/olensmar/testserver-swagger-codegen</url>
+
+    <developers>
+        <developer>
+            <name>Ole Lensmar</name>
+            <id>olensmar</id>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/olensmar/testserver-swagger-codegen</url>
+        <connection>scm:git:ssh://git@github.com/olensmar/testserver-swagger-codegen.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/olensmar/testserver-swagger-codegen.git
+        </developerConnection>
+    </scm>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/olensmar/testserver-swagger-codegen/issues</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <prerequisites>
         <maven>2.2.0</maven>
     </prerequisites>
+
+    <properties>
+        <swagger-codegen-version>2.1.5</swagger-codegen-version>
+        <maven-plugin-version>1.0.0</maven-plugin-version>
+        <junit-version>4.8.1</junit-version>
+    </properties>
 
     <build>
         <plugins>
@@ -108,9 +147,80 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <swagger-codegen-version>2.1.6-SNAPSHOT</swagger-codegen-version>
-        <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.8.1</junit-version>
-    </properties>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <archive>
+                                <manifestEntries>
+                                    <mode>development</mode>
+                                    <url>${project.url}</url>
+                                    <implementation-version>${project.version}</implementation-version>
+                                    <package>com.smartbear.readyapi.testserver.codegen</package>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.1.2</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.3</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
